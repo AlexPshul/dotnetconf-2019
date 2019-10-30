@@ -1,0 +1,20 @@
+﻿@page "/geekjoke"
+@inject HttpClient Http
+
+<div style="width: 50%;text-align: center;margin: auto">
+    <h1>Geek Joke</h1>
+
+    <button @onclick="FetchJoke">FETCH NEW JOKE</button>
+    <h3 style="margin-top: 50px">@Joke</h3>
+</div>
+
+@code {
+    public string Joke { get; private set; } = "-- JOKE --";
+
+    public async Task FetchJoke()
+    {
+        Joke = "Fetching...";
+        HttpResponseMessage response = await Http.GetAsync("http://localhost:7071/api/geek-joke");
+        Joke = await response.Content.ReadAsStringAsync();
+    }
+}
